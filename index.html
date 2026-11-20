@@ -1,0 +1,749 @@
+
+<html lang="ms">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dashboard Keputusan Peperiksaan STM1 — Kolej Komuniti Bentong</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, "Segoe UI", system-ui, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    background: #f0f2f5;
+    color: #1f2328;
+  }
+  .page { max-width: 980px; margin: 0 auto; padding: 28px 20px 52px; }
+
+  /* ── HEADER ── */
+  .header {
+    background: #1a2a5e;
+    border-radius: 12px;
+    margin-bottom: 22px;
+    overflow: hidden;
+    display: flex;
+    align-items: stretch;
+    box-shadow: 0 2px 14px rgba(26,42,94,0.25);
+  }
+  .header-stripe { width: 8px; background: linear-gradient(180deg, #f5a623 0%, #e8891a 100%); flex-shrink: 0; }
+  .header-inner { display: flex; align-items: center; gap: 24px; padding: 20px 28px; flex: 1; }
+  .header-divider { width: 1px; background: rgba(255,255,255,0.2); align-self: stretch; margin: 4px 0; flex-shrink: 0; }
+  .header-titles { flex: 1; }
+  .header-titles h1 { font-size: 20px; font-weight: 800; color: #ffffff; letter-spacing: 0.3px; line-height: 1.25; }
+  .header-titles h2 { font-size: 13px; font-weight: 400; color: rgba(255,255,255,0.72); margin-top: 3px; }
+  .header-badges { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .hbadge { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.22); border-radius: 20px; padding: 3px 11px; font-size: 11.5px; color: rgba(255,255,255,0.9); }
+  .hbadge strong { color: #fbbf24; }
+
+  /* ── STAT CARDS ── */
+  .stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 22px; }
+  .stat-card { background: #fff; border-radius: 10px; padding: 18px 20px 16px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); border-top: 4px solid #e5e7eb; }
+  .stat-card.c1 { border-top-color: #3b82d4; }
+  .stat-card.c2 { border-top-color: #16a34a; }
+  .stat-card.c3 { border-top-color: #2d2f8e; }
+  .stat-card.c4 { border-top-color: #f5a623; }
+  .stat-label { font-size: 11px; color: #57606a; text-transform: uppercase; letter-spacing: 0.6px; font-weight: 600; }
+  .stat-value { font-size: 32px; font-weight: 800; margin: 2px 0 2px; line-height: 1; }
+  .stat-card.c1 .stat-value { color: #3b82d4; }
+  .stat-card.c2 .stat-value { color: #16a34a; }
+  .stat-card.c3 .stat-value { color: #2d2f8e; }
+  .stat-card.c4 .stat-value { color: #d97706; }
+  .stat-sub { font-size: 12px; color: #57606a; }
+
+  /* ── SECTION TITLE ── */
+  .section-title {
+    font-size: 12px; font-weight: 700; color: #fff; background: #1a2a5e;
+    text-transform: uppercase; letter-spacing: 0.8px; padding: 7px 14px;
+    border-radius: 6px; margin-bottom: 12px; margin-top: 24px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .section-title .dot { width: 8px; height: 8px; border-radius: 50%; background: #f5a623; flex-shrink: 0; }
+
+  /* ── ANUGERAH SECTION ── */
+  .anugerah-banner {
+    background: linear-gradient(135deg, #1a2a5e 0%, #2d2f8e 100%);
+    border-radius: 10px;
+    padding: 18px 24px;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 10px rgba(26,42,94,0.2);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .anugerah-icon-wrap {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: rgba(245,166,35,0.2);
+    border: 2px solid #f5a623;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .anugerah-icon { font-size: 26px; }
+  .anugerah-title-block h3 { font-size: 16px; font-weight: 800; color: #fbbf24; }
+  .anugerah-title-block p { font-size: 12px; color: rgba(255,255,255,0.75); margin-top: 2px; }
+
+  .anugerah-cards { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 6px; }
+  .anugerah-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 14px 12px;
+    text-align: center;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.09);
+    border-top: 3px solid #f5a623;
+    position: relative;
+    overflow: hidden;
+  }
+  .anugerah-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 100%;
+    background: linear-gradient(135deg, rgba(245,166,35,0.04) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .anugerah-medal {
+    width: 36px; height: 36px; border-radius: 50%; margin: 0 auto 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+  .medal-1 { background: #fef9c3; }
+  .medal-2 { background: #f3f4f6; }
+  .medal-3 { background: #fff7ed; }
+  .medal-n { background: #eff6ff; }
+  .anugerah-rank { font-size: 10px; font-weight: 700; color: #57606a; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+  .anugerah-name { font-size: 11.5px; font-weight: 700; color: #1a2a5e; line-height: 1.3; margin-bottom: 6px; }
+  .anugerah-reg  { font-size: 10px; color: #9ca3af; margin-bottom: 6px; }
+  .anugerah-gpa  { font-size: 20px; font-weight: 900; color: #1a2a5e; }
+  .anugerah-gpa-label { font-size: 10px; color: #57606a; }
+  .anugerah-note { font-size: 11.5px; color: #57606a; margin-top: 10px; }
+  .anugerah-note strong { color: #1a2a5e; }
+
+  /* ── TABLES ── */
+  .table-wrap { background: #fff; border-radius: 10px; overflow-x: auto; box-shadow: 0 1px 4px rgba(0,0,0,0.07); }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead th { background: #f7f8fa; padding: 10px 11px; text-align: left; font-weight: 700; font-size: 11.5px; color: #57606a; border-bottom: 2px solid #e5e7eb; white-space: nowrap; }
+  tbody td { padding: 9px 11px; border-bottom: 1px solid #f0f1f3; vertical-align: middle; }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover { background: #f7f9ff; }
+  tbody tr.row-award { background: #fffbeb; }
+  tbody tr.row-award:hover { background: #fef9c3; }
+
+  .rank-badge { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 50%; background: #e5e7eb; font-size: 11px; font-weight: 700; color: #57606a; }
+  .rank-1 { background: #fbbf24; color: #78350f; }
+  .rank-2 { background: #c0c8d0; color: #374151; }
+  .rank-3 { background: #d97706; color: #fff; }
+
+  .gred { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+  .gAp { background: #dcfce7; color: #15803d; }
+  .gA  { background: #d1fae5; color: #047857; }
+  .gAm { background: #ecfdf5; color: #065f46; }
+  .gBp { background: #dbeafe; color: #1d4ed8; }
+  .gB  { background: #eff6ff; color: #2563eb; }
+  .gBm { background: #f0f9ff; color: #0369a1; }
+
+  .gpa-row { display: flex; align-items: center; gap: 7px; }
+  .gpa-num { font-weight: 800; font-size: 14px; color: #1a2a5e; min-width: 36px; }
+  .gpa-track { flex: 1; height: 8px; background: #e5e7eb; border-radius: 4px; overflow: hidden; }
+  .gpa-fill  { height: 100%; border-radius: 4px; background: linear-gradient(90deg, #2d2f8e, #f5a623); }
+  .status-kb { background: #dcfce7; color: #15803d; border-radius: 20px; padding: 2px 10px; font-size: 11px; font-weight: 700; }
+  .award-tag { background: #fef9c3; color: #92400e; border: 1px solid #fbbf24; border-radius: 20px; padding: 2px 8px; font-size: 10px; font-weight: 700; margin-left: 4px; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .card { background: #fff; border-radius: 10px; padding: 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); }
+
+  .dist-row { display: flex; align-items: center; gap: 10px; margin-bottom: 9px; }
+  .dist-label { font-size: 12px; color: #57606a; min-width: 100px; }
+  .dist-track { flex: 1; height: 14px; background: #f0f1f3; border-radius: 20px; overflow: hidden; }
+  .dist-fill  { height: 100%; border-radius: 20px; }
+  .dist-count { font-size: 12px; font-weight: 800; min-width: 20px; text-align: right; color: #1f2328; }
+
+  .savg-row { display: flex; align-items: center; gap: 10px; margin-bottom: 9px; }
+  .savg-label { font-size: 11.5px; min-width: 190px; color: #1f2328; }
+  .savg-track { flex: 1; height: 12px; background: #f0f1f3; border-radius: 20px; overflow: hidden; }
+  .savg-fill  { height: 100%; border-radius: 20px; background: linear-gradient(90deg, #2d2f8e, #f5a623); }
+  .savg-val   { font-size: 12px; font-weight: 800; min-width: 38px; text-align: right; color: #1a2a5e; }
+
+  .success-banner { background: linear-gradient(135deg, #f0fdf4, #dcfce7); border: 1px solid #86efac; border-radius: 8px; padding: 12px 16px; margin-top: 14px; display: flex; align-items: center; gap: 12px; }
+  .success-text { font-size: 12.5px; color: #166534; font-weight: 600; }
+  .success-sub  { font-size: 11px; color: #57606a; margin-top: 1px; }
+
+  .rumusan-grid { display: grid; grid-template-columns: 1fr 1fr; }
+  .rumusan-block { padding: 18px 20px; }
+  .rumusan-block.pos { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 0; border-right: 1px solid #bbf7d0; }
+  .rumusan-block.imp { background: #fff7ed; border: 1px solid #fed7aa; border-radius: 0; }
+  .rumusan-title { font-size: 12px; font-weight: 700; margin-bottom: 8px; }
+  .rumusan-block.pos .rumusan-title { color: #15803d; }
+  .rumusan-block.imp .rumusan-title { color: #c2410c; }
+  .rumusan-block ul { padding-left: 16px; }
+  .rumusan-block li { font-size: 12.5px; color: #374151; line-height: 1.8; }
+
+  .footer { margin-top: 40px; padding-top: 16px; border-top: 1px solid #e5e7eb; text-align: center; font-size: 11.5px; color: #57606a; }
+
+  @media (max-width: 660px) {
+    .stat-row { grid-template-columns: repeat(2, 1fr); }
+    .two-col, .rumusan-grid { grid-template-columns: 1fr; }
+    .header-inner { flex-direction: column; align-items: flex-start; }
+    .anugerah-cards { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  
+  <div class="header">
+    <div class="header-stripe"></div>
+    <div class="header-inner">
+      
+      <svg width="82" height="72" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
+        
+        <polygon points="0,0 18,0 18,22 36,22 36,36 0,36" fill="#f5a623"></polygon>
+        
+        <polygon points="10,14 28,14 28,36 46,36 46,50 10,50" fill="#2d2f8e"></polygon>
+      </svg>
+      <div class="header-divider"></div>
+      <div class="header-titles">
+        <h1>Dashboard Keputusan Peperiksaan</h1>
+        <h2>Sijil Teknologi Maklumat (STM) · Semester 1 · Sesi 2026/2027</h2>
+        <div class="header-badges">
+          <span class="hbadge"><strong>Kelas:</strong> SKKSTM1A</span>
+          <span class="hbadge"><strong>Pelajar:</strong> 11 orang</span>
+          <span class="hbadge"><strong>Pensyarah:</strong> Pn. Normah Binti Abdul Malik</span>
+          <span class="hbadge"><strong>Kolej Komuniti Bentong</strong></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="stat-row">
+    <div class="stat-card c1">
+      <div class="stat-label">Jumlah Pelajar</div>
+      <div class="stat-value">11</div>
+      <div class="stat-sub">Kelas SKKSTM1A</div>
+    </div>
+    <div class="stat-card c2">
+      <div class="stat-label">Kadar Lulus</div>
+      <div class="stat-value">100%</div>
+      <div class="stat-sub">11/11 pelajar lulus (KB)</div>
+    </div>
+    <div class="stat-card c3">
+      <div class="stat-label">Purata GPA Kelas</div>
+      <div class="stat-value">3.65</div>
+      <div class="stat-sub">Jumlah kredit: 18</div>
+    </div>
+    <div class="stat-card c4">
+      <div class="stat-label">Anugerah Kecemerlangan</div>
+      <div class="stat-value">5</div>
+      <div class="stat-sub">Pelajar GPA ≥ 3.67</div>
+    </div>
+  </div>
+
+  
+  <div class="section-title"><span class="dot"></span>Anugerah Kecemerlangan Akademik</div>
+
+  <div class="anugerah-banner">
+    <div class="anugerah-icon-wrap">
+      <div class="anugerah-icon">🏅</div>
+    </div>
+    <div class="anugerah-title-block">
+      <h3>Anugerah Kecemerlangan Akademik</h3>
+      <p>Diberikan kepada pelajar yang mencapai Purata Nilai Mata (GPA) ≥ 3.67 dalam Semester 1 Sesi 2026/2027</p>
+    </div>
+  </div>
+
+  <div class="anugerah-cards">
+    
+    <div class="anugerah-card">
+      <div class="anugerah-medal medal-1">🥇</div>
+      <div class="anugerah-rank">Tempat ke-1</div>
+      <div class="anugerah-name">Mohamad Razzin bin Azlan</div>
+      <div class="anugerah-reg">C02STM26F001</div>
+      <div class="anugerah-gpa">3.83</div>
+      <div class="anugerah-gpa-label">GPA</div>
+    </div>
+    
+    <div class="anugerah-card">
+      <div class="anugerah-medal medal-2">🥈</div>
+      <div class="anugerah-rank">Tempat ke-2</div>
+      <div class="anugerah-name">Ammar Naufal bin Nor Hafizal</div>
+      <div class="anugerah-reg">C02STM26F003</div>
+      <div class="anugerah-gpa">3.82</div>
+      <div class="anugerah-gpa-label">GPA</div>
+    </div>
+    
+    <div class="anugerah-card">
+      <div class="anugerah-medal medal-3">🥉</div>
+      <div class="anugerah-rank">Tempat ke-3</div>
+      <div class="anugerah-name">Muhammad Fariq Safwan bin Muhammad Fikri</div>
+      <div class="anugerah-reg">C02STM26F009</div>
+      <div class="anugerah-gpa">3.78</div>
+      <div class="anugerah-gpa-label">GPA</div>
+    </div>
+    
+    <div class="anugerah-card">
+      <div class="anugerah-medal medal-n">⭐</div>
+      <div class="anugerah-rank">Tempat ke-4</div>
+      <div class="anugerah-name">Muhammad Ikmal Harith bin Mohd Sarmizi</div>
+      <div class="anugerah-reg">C02STM26F002</div>
+      <div class="anugerah-gpa">3.67</div>
+      <div class="anugerah-gpa-label">GPA</div>
+    </div>
+    
+    <div class="anugerah-card">
+      <div class="anugerah-medal medal-n">⭐</div>
+      <div class="anugerah-rank">Tempat ke-4</div>
+      <div class="anugerah-name">Nur Muhammad Rasydan bin Mohd Tahir</div>
+      <div class="anugerah-reg">C02STM26F011</div>
+      <div class="anugerah-gpa">3.67</div>
+      <div class="anugerah-gpa-label">GPA</div>
+    </div>
+  </div>
+  <div class="anugerah-note" style="text-align:right;padding:4px 2px 0">
+    <strong>5 pelajar</strong> layak menerima Anugerah Kecemerlangan Akademik Semester 1 · GPA ≥ 3.67
+  </div>
+
+  
+  <div class="section-title"><span class="dot"></span>Ranking &amp; Keputusan Individu Pelajar</div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:40px">Bil</th>
+          <th>No. Kad Pengenalan</th>
+          <th>Nama Pelajar</th>
+          <th>No. Pendaftaran</th>
+          <th style="text-align:center">Jml Kredit</th>
+          <th style="text-align:center;min-width:150px">GPA</th>
+          <th style="text-align:center">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="row-award">
+          <td><span class="rank-badge rank-1">1</span></td>
+          <td style="font-size:12px;color:#57606a">080224140823</td>
+          <td><strong>Mohamad Razzin bin Azlan</strong> <span class="award-tag">🏅 Anugerah</span></td>
+          <td style="font-size:12px">C02STM26F001</td>
+          <td style="text-align:center">18</td>
+          <td><div class="gpa-row"><span class="gpa-num">3.83</span><div class="gpa-track"><div class="gpa-fill" style="width:95.75%"></div></div></div></td>
+          <td style="text-align:center"><span class="status-kb">KB</span></td>
+        </tr>
+        <tr class="row-award">
+          <td><span class="rank-badge rank-2">2</span></td>
+          <td style="font-size:12px;color:#57606a">081019140095</td>
+          <td><strong>Ammar Naufal bin Nor Hafizal</strong> <span class="award-tag">🏅 Anugerah</span></td>
+          <td style="font-size:12px">C02STM26F003</td>
+          <td style="text-align:center">18</td>
+          <td><div class="gpa-row"><span class="gpa-num">3.82</span><div class="gpa-track"><div class="gpa-fill" style="width:95.5%"></div></div></div></td>
+          <td style="text-align:center"><span class="status-kb">KB</span></td>
+        </tr>
+        <tr class="row-award">
+          <td><span class="rank-badge rank-3">3</span></td>
+          <td style="font-size:12px;color:#57606a">080704050501</td>
+          <td><strong>Muhammad Fariq Safwan bin Muhammad Fikri</strong> <span class="award-tag">🏅 Anugerah</span></td>
+          <td style="font-size:12px">C02STM26F009</td>
+          <td style="text-align:center">18</td>
+          <td><div class="gpa-row"><span class="gpa-num">3.78</span><div class="gpa-track"><div class="gpa-fill" style="width:94.5%"></div></div></div></td>
+          <td style="text-align:center"><span class="status-kb">KB</span></td>
+        </tr>
+        <tr class="row-award">
+          <td><span class="rank-badge">4</span></td>
+          <td style="font-size:12px;color:#57606a">081017140729</td>
+          <td><strong>Muhammad Ikmal Harith bin Mohd Sarmizi</strong> <span class="award-tag">🏅 Anugerah</span></td>
+          <td style="font-size:12px">C02STM26F002</td>
+          <td style="text-align:center">18</td>
+          <td><div class="gpa-row"><span class="gpa-num">3.67</span><div class="gpa-track"><div class="gpa-fill" style="width:91.75%"></div></div></div></td>
+          <td style="text-align:center"><span class="status-kb">KB</span></td>
+        </tr>
+        <tr class="row-award">
+          <td><span class="rank-badge">4</span></td>
+          <td style="font-size:12px;color:#57606a">080830101269</td>
+          <td><strong>Nur Muhammad Rasydan bin Mohd Tahir</strong> <span class="award-tag">🏅 Anugerah</span></td>
+          <td style="font-size:12px">C02STM26F011</td>
+          <td style="text-align:center">18</td>
+          <td><div class="gpa-row"><span class="gpa-num">3.67</span><div class="gpa-track"><div class="gpa-fill" style="width:91.75%"></div></div></div></td>
+          <td style="text-align:center"><span class="status-kb">KB</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank-badge">6</span></td>
+          <td style="font-size:12px;color:#57606a">081206030502</td>
+          <td><strong>Nur Syafiqah binti Mohd Sakri</strong></td>
+          <td style="font-size:12px">C02STM26F007</td>
+          <td style="text-align:center">18</td>
+          <td><div class="gpa-row"><span class="gpa-num">3.65</span><div class="gpa-track"><div class="gpa-fill" style="width:91.25%"></div></div></div></td>
+          <td style="text-align:center"><span class="status-kb">KB</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank-badge">7</span></td>
+          <td style="font-size:12px;color:#57606a">081204060329</td>
+          <td><strong>Ayyis Hadiff bin Yazrol Azwan</strong></td>
+          <td style="font-size:12px">C02STM26F005</td>
+          <td style="text-align:center">18</td>
+          <td><div class="gpa-row"><span class="gpa-num">3.61</span><div class="gpa-track"><div class="gpa-fill" style="width:90.25%"></div></div></div></td>
+          <td style="text-align:center"><span class="status-kb">KB</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank-badge">7</span></td>
+          <td style="font-size:12px;color:#57606a">080908100224</td>
+          <td><strong>Hanis Batrisyia binti Rosman</strong></td>
+          <td style="font-size:12px">C02STM26F010</td>
+          <td style="text-align:center">18</td>
+          <td><div class="gpa-row"><span class="gpa-num">3.61</span><div class="gpa-track"><div class="gpa-fill" style="width:90.25%"></div></div></div></td>
+          <td style="text-align:center"><span class="status-kb">KB</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank-badge">9</span></td>
+          <td style="font-size:12px;color:#57606a">080608140558</td>
+          <td><strong>Nur Alyaa Nabilah binti Miyur Zulkifli</strong></td>
+          <td style="font-size:12px">C02STM26F012</td>
+          <td style="text-align:center">18</td>
+          <td><div class="gpa-row"><span class="gpa-num">3.56</span><div class="gpa-track"><div class="gpa-fill" style="width:89%"></div></div></div></td>
+          <td style="text-align:center"><span class="status-kb">KB</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank-badge">10</span></td>
+          <td style="font-size:12px;color:#57606a">081212060687</td>
+          <td><strong>Fizrian bin Fizziamyrul</strong></td>
+          <td style="font-size:12px">C02STM26F008</td>
+          <td style="text-align:center">18</td>
+          <td><div class="gpa-row"><span class="gpa-num">3.54</span><div class="gpa-track"><div class="gpa-fill" style="width:88.5%"></div></div></div></td>
+          <td style="text-align:center"><span class="status-kb">KB</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank-badge">11</span></td>
+          <td style="font-size:12px;color:#57606a">080616060785</td>
+          <td><strong>Navien Rao a/l Bapu Naidu</strong></td>
+          <td style="font-size:12px">C02STM26F004</td>
+          <td style="text-align:center">18</td>
+          <td><div class="gpa-row"><span class="gpa-num">3.50</span><div class="gpa-track"><div class="gpa-fill" style="width:87.5%"></div></div></div></td>
+          <td style="text-align:center"><span class="status-kb">KB</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <div style="padding:8px 14px;background:#fffbeb;border-top:1px solid #fde68a;font-size:11.5px;color:#92400e;border-radius:0 0 10px 10px">
+      🏅 Baris berlatarbelakang kuning = pelajar layak Anugerah Kecemerlangan Akademik (GPA ≥ 3.67)
+    </div>
+  </div>
+
+  
+  <div class="section-title"><span class="dot"></span>Markah &amp; Gred Mengikut Subjek</div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Bil</th>
+          <th>Nama Pelajar</th>
+          <th style="text-align:center">LASUE1003<br /><span style="font-weight:400;font-size:10px;color:#9ca3af">Comm. English</span></th>
+          <th style="text-align:center">MPU1305/1304<br /><span style="font-weight:400;font-size:10px;color:#9ca3af">Moral/Islam</span></th>
+          <th style="text-align:center">SFC1164<br /><span style="font-weight:400;font-size:10px;color:#9ca3af">Sys. Analysis</span></th>
+          <th style="text-align:center">SFC1162<br /><span style="font-weight:400;font-size:10px;color:#9ca3af">Comp. Arch.</span></th>
+          <th style="text-align:center">SFC1161<br /><span style="font-weight:400;font-size:10px;color:#9ca3af">Programming</span></th>
+          <th style="text-align:center">SFC1160<br /><span style="font-weight:400;font-size:10px;color:#9ca3af">Database</span></th>
+          <th style="text-align:center">SFC1159<br /><span style="font-weight:400;font-size:10px;color:#9ca3af">Basic Maths</span></th>
+          <th style="text-align:center">GPA</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="row-award">
+          <td><span class="rank-badge rank-1" style="font-size:10px">1</span></td>
+          <td><strong>Mohamad Razzin</strong> <span class="award-tag">🏅</span></td>
+          <td style="text-align:center"><span class="gred gB">B<br /><small style="color:#57606a">68.7</small></span></td>
+          <td style="text-align:center"><span class="gred gA">A<br /><small style="color:#57606a">80.0</small></span></td>
+          <td style="text-align:center"><span class="gred gA">A<br /><small style="color:#57606a">87</small></span></td>
+          <td style="text-align:center"><span class="gred gAp">A+<br /><small style="color:#57606a">91</small></span></td>
+          <td style="text-align:center"><span class="gred gAp">A+<br /><small style="color:#57606a">93</small></span></td>
+          <td style="text-align:center"><span class="gred gAp">A+<br /><small style="color:#57606a">93</small></span></td>
+          <td style="text-align:center"><span class="gred gBp">B+<br /><small style="color:#57606a">70</small></span></td>
+          <td style="text-align:center"><strong style="color:#1a2a5e">3.83</strong></td>
+        </tr>
+        <tr class="row-award">
+          <td><span class="rank-badge rank-2" style="font-size:10px">2</span></td>
+          <td><strong>Ammar Naufal</strong> <span class="award-tag">🏅</span></td>
+          <td style="text-align:center"><span class="gred gAm">A-<br /><small style="color:#57606a">78.7</small></span></td>
+          <td style="text-align:center"><span class="gred gB">B<br /><small style="color:#57606a">66.7</small></span></td>
+          <td style="text-align:center"><span class="gred gAp">A+<br /><small style="color:#57606a">98</small></span></td>
+          <td style="text-align:center"><span class="gred gAp">A+<br /><small style="color:#57606a">91</small></span></td>
+          <td style="text-align:center"><span class="gred gAp">A+<br /><small style="color:#57606a">95</small></span></td>
+          <td style="text-align:center"><span class="gred gA">A<br /><small style="color:#57606a">85</small></span></td>
+          <td style="text-align:center"><span class="gred gAm">A-<br /><small style="color:#57606a">77</small></span></td>
+          <td style="text-align:center"><strong style="color:#1a2a5e">3.82</strong></td>
+        </tr>
+        <tr class="row-award">
+          <td><span class="rank-badge rank-3" style="font-size:10px">3</span></td>
+          <td><strong>Fariq Safwan</strong> <span class="award-tag">🏅</span></td>
+          <td style="text-align:center"><span class="gred gB">B<br /><small style="color:#57606a">65.6</small></span></td>
+          <td style="text-align:center"><span class="gred gA">A<br /><small style="color:#57606a">83.0</small></span></td>
+          <td style="text-align:center"><span class="gred gAp">A+<br /><small style="color:#57606a">94</small></span></td>
+          <td style="text-align:center"><span class="gred gAp">A+<br /><small style="color:#57606a">91</small></span></td>
+          <td style="text-align:center"><span class="gred gA">A<br /><small style="color:#57606a">86</small></span></td>
+          <td style="text-align:center"><span class="gred gA">A<br /><small style="color:#57606a">87</small></span></td>
+          <td style="text-align:center"><span class="gred gB">B<br /><small style="color:#57606a">68</small></span></td>
+          <td style="text-align:center"><strong style="color:#1a2a5e">3.78</strong></td>
+        </tr>
+        <tr class="row-award">
+          <td><span class="rank-badge" style="font-size:10px">4</span></td>
+          <td><strong>Ikmal Harith</strong> <span class="award-tag">🏅</span></td>
+          <td style="text-align:center"><span class="gred gB">B<br /><small style="color:#57606a">67.2</small></span></td>
+          <td style="text-align:center"><span class="gred gB">B<br /><small style="color:#57606a">68.5</small></span></td>
+          <td style="text-align:center"><span class="gred gA">A<br /><small style="color:#57606a">86</small></span></td>
+          <td style="text-align:center"><span class="gred gA">A<br /><small style="color:#57606a">89</small></span></td>
+          <td style="text-align:center"><span class="gred gA">A<br /><small style="color:#57606a">83</small></span></td>
+          <td style="text-align:center"><span class="gred gBp">B+<br /><small style="color:#57606a">72</small></span></td>
+          <td style="text-align:center"><span class="gred gAm">A-<br /><small style="color:#57606a">76</small></span></td>
+          <td style="text-align:center"><strong style="color:#1a2a5e">3.67</strong></td>
+        </tr>
+        <tr class="row-award">
+          <td><span class="rank-badge" style="font-size:10px">4</span></td>
+          <td><strong>Nur Rasydan</strong> <span class="award-tag">🏅</span></td>
+          <td style="text-align:center"><span class="gred gB">B<br /><small style="color:#57606a">65.6</small></span></td>
+          <td style="text-align:center"><span class="gred gA">A<br /><small style="color:#57606a">83.0</small></span></td>
+          <td style="text-align:center"><span class="gred gAp">A+<br /><small style="color:#57606a">90</small></span></td>
+          <td style="text-align:center"><span class="gred gA">A<br /><small style="color:#57606a">87</small></span></td>
+          <td style="text-align:center"><span class="gred gAm">A-<br /><small style="color:#57606a">78</small></span></td>
+          <td style="text-align:center"><span class="gred gAm">A-<br /><small style="color:#57606a">79</small></span></td>
+          <td style="text-align:center"><span class="gred gB">B<br /><small style="color:#57606a">65</small></span></td>
+          <td style="text-align:center"><strong style="color:#1a2a5e">3.67</strong></td>
+        </tr>
+        <tr>
+          <td><span class="rank-badge" style="font-size:10px">6</span></td>
+          <td><strong>Nur Syafiqah</strong></td>
+          <td style="text-align:center"><span class="gred gBp">B+<br /><small style="color:#57606a">71.9</small></span></td>
+          <td style="text-align:center"><span class="gred gAm">A-<br /><small style="color:#57606a">78.4</small></span></td>
+          <td style="text-align:center"><span class="gred gA">A<br /><small style="color:#57606a">83</small></span></td>
+          <td style="text-align:center"><span class="gred gA">A<br /><small style="color:#57606a">85</small></span></td>
+          <td style="text-align:center"><span class="gred gBp">B+<br /><small style="color:#57606a">74</small></span></td>
+          <td style="text-align:center"><span class="gred gAm">A-<br /><small style="color:#57606a">77</small></span></td>
+          <td style="text-align:center"><span class="gred gBp">B+<br /><small style="color:#57606a">70</small></span></td>
+          <td style="text-align:center"><strong style="color:#1a2a5e">3.65</strong></td>
+        </tr>
+        <tr>
+          <td><span class="rank-badge" style="font-size:10px">7</span></td>
+          <td><strong>Ayyis Hadiff</strong></td>
+          <td style="text-align:center"><span class="gred gB">B<br /><small style="color:#57606a">67.2</small></span></td>
+          <td style="text-align:center"><span class="gred gB">B<br /><small style="color:#57606a">66.7</small></span></td>
+          <td style="text-align:center"><span class="gred gA">A<br /><small style="color:#57606a">83</small></span></td>
+          <td style="text-align:center"><span class="gred gAp">A+<br /><small style="color:#57606a">90</small></span></td>
+          <td style="text-align:center"><span class="gred gAm">A-<br /><small style="color:#57606a">79</small></span></td>
+          <td style="text-align:center"><span class="gred gA">A<br /><small style="color:#57606a">84</small></span></td>
+          <td style="text-align:center"><span class="gred gB">B<br /><small style="color:#57606a">65</small></span></td>
+          <td style="text-align:center"><strong style="color:#1a2a5e">3.61</strong></td>
+        </tr>
+        <tr>
+          <td><span class="rank-badge" style="font-size:10px">7</span></td>
+          <td><strong>Hanis Batrisyia</strong></td>
+          <td style="text-align:center"><span class="gred gAm">A-<br /><small style="color:#57606a">74.5</small></span></td>
+          <td style="text-align:center"><span class="gred gAm">A-<br /><small style="color:#57606a">76.9</small></span></td>
+          <td style="text-align:center"><span class="gred gA">A<br /><small style="color:#57606a">83</small></span></td>
+          <td style="text-align:center"><span class="gred gA">A<br /><small style="color:#57606a">86</small></span></td>
+          <td style="text-align:center"><span class="gred gB">B<br /><small style="color:#57606a">68</small></span></td>
+          <td style="text-align:center"><span class="gred gA">A<br /><small style="color:#57606a">89</small></span></td>
+          <td style="text-align:center"><span class="gred gB">B<br /><small style="color:#57606a">65</small></span></td>
+          <td style="text-align:center"><strong style="color:#1a2a5e">3.61</strong></td>
+        </tr>
+        <tr>
+          <td><span class="rank-badge" style="font-size:10px">9</span></td>
+          <td><strong>Nur Alyaa Nabilah</strong></td>
+          <td style="text-align:center"><span class="gred gA">A<br /><small style="color:#57606a">82.6</small></span></td>
+          <td style="text-align:center"><span class="gred gA">A<br /><small style="color:#57606a">83.2</small></span></td>
+          <td style="text-align:center"><span class="gred gA">A<br /><small style="color:#57606a">88</small></span></td>
+          <td style="text-align:center"><span class="gred gA">A<br /><small style="color:#57606a">86</small></span></td>
+          <td style="text-align:center"><span class="gred gBp">B+<br /><small style="color:#57606a">71</small></span></td>
+          <td style="text-align:center"><span class="gred gBp">B+<br /><small style="color:#57606a">70</small></span></td>
+          <td style="text-align:center"><span class="gred gBm">B-<br /><small style="color:#57606a">60</small></span></td>
+          <td style="text-align:center"><strong style="color:#1a2a5e">3.56</strong></td>
+        </tr>
+        <tr>
+          <td><span class="rank-badge" style="font-size:10px">10</span></td>
+          <td><strong>Fizrian</strong></td>
+          <td style="text-align:center"><span class="gred gAm">A-<br /><small style="color:#57606a">75.7</small></span></td>
+          <td style="text-align:center"><span class="gred gB">B<br /><small style="color:#57606a">69.0</small></span></td>
+          <td style="text-align:center"><span class="gred gA">A<br /><small style="color:#57606a">84</small></span></td>
+          <td style="text-align:center"><span class="gred gA">A<br /><small style="color:#57606a">89</small></span></td>
+          <td style="text-align:center"><span class="gred gB">B<br /><small style="color:#57606a">68</small></span></td>
+          <td style="text-align:center"><span class="gred gAm">A-<br /><small style="color:#57606a">79</small></span></td>
+          <td style="text-align:center"><span class="gred gBp">B+<br /><small style="color:#57606a">72</small></span></td>
+          <td style="text-align:center"><strong style="color:#1a2a5e">3.54</strong></td>
+        </tr>
+        <tr>
+          <td><span class="rank-badge" style="font-size:10px">11</span></td>
+          <td><strong>Navien Rao</strong></td>
+          <td style="text-align:center"><span class="gred gB">B<br /><small style="color:#57606a">68.6</small></span></td>
+          <td style="text-align:center"><span class="gred gB">B<br /><small style="color:#57606a">65.6</small></span></td>
+          <td style="text-align:center"><span class="gred gBp">B+<br /><small style="color:#57606a">74</small></span></td>
+          <td style="text-align:center"><span class="gred gA">A<br /><small style="color:#57606a">88</small></span></td>
+          <td style="text-align:center"><span class="gred gA">A<br /><small style="color:#57606a">86</small></span></td>
+          <td style="text-align:center"><span class="gred gB">B<br /><small style="color:#57606a">69</small></span></td>
+          <td style="text-align:center"><span class="gred gAm">A-<br /><small style="color:#57606a">76</small></span></td>
+          <td style="text-align:center"><strong style="color:#1a2a5e">3.50</strong></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  
+  <div class="two-col" style="margin-top:0">
+    <div>
+      <div class="section-title"><span class="dot"></span>Taburan GPA Pelajar</div>
+      <div class="card">
+        <div class="dist-row">
+          <div class="dist-label" style="font-weight:700;color:#15803d">3.80 – 4.00</div>
+          <div class="dist-track"><div class="dist-fill" style="width:18.18%;background:#16a34a"></div></div>
+          <div class="dist-count" style="color:#16a34a">2</div>
+        </div>
+        <div class="dist-row">
+          <div class="dist-label" style="font-weight:700;color:#2d2f8e">3.60 – 3.79</div>
+          <div class="dist-track"><div class="dist-fill" style="width:54.54%;background:#2d2f8e"></div></div>
+          <div class="dist-count" style="color:#2d2f8e">6</div>
+        </div>
+        <div class="dist-row">
+          <div class="dist-label" style="font-weight:700;color:#d97706">3.40 – 3.59</div>
+          <div class="dist-track"><div class="dist-fill" style="width:27.27%;background:#f5a623"></div></div>
+          <div class="dist-count" style="color:#d97706">3</div>
+        </div>
+        <div class="dist-row">
+          <div class="dist-label">3.00 – 3.39</div>
+          <div class="dist-track"><div class="dist-fill" style="width:0%"></div></div>
+          <div class="dist-count">0</div>
+        </div>
+        <div class="dist-row">
+          <div class="dist-label">Di bawah 3.00</div>
+          <div class="dist-track"><div class="dist-fill" style="width:0%"></div></div>
+          <div class="dist-count">0</div>
+        </div>
+        <div class="success-banner">
+          <div style="font-size:22px;flex-shrink:0">🏆</div>
+          <div>
+            <div class="success-text">Semua 11 pelajar lulus dengan GPA ≥ 3.50</div>
+            <div class="success-sub">5 pelajar layak Anugerah Kecemerlangan Akademik</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="section-title"><span class="dot"></span>Taburan Gred Keseluruhan</div>
+      <div class="card">
+        <div class="dist-row">
+          <div class="dist-label"><span class="gred gAp" style="min-width:30px;text-align:center">A+</span></div>
+          <div class="dist-track"><div class="dist-fill" style="width:17.6%;background:#15803d"></div></div>
+          <div class="dist-count">12</div>
+          <div style="font-size:11px;color:#57606a;min-width:38px">17.6%</div>
+        </div>
+        <div class="dist-row">
+          <div class="dist-label"><span class="gred gA" style="min-width:30px;text-align:center">A</span></div>
+          <div class="dist-track"><div class="dist-fill" style="width:36.8%;background:#16a34a"></div></div>
+          <div class="dist-count">25</div>
+          <div style="font-size:11px;color:#57606a;min-width:38px">36.8%</div>
+        </div>
+        <div class="dist-row">
+          <div class="dist-label"><span class="gred gAm" style="min-width:30px;text-align:center">A-</span></div>
+          <div class="dist-track"><div class="dist-fill" style="width:17.6%;background:#4ade80"></div></div>
+          <div class="dist-count">12</div>
+          <div style="font-size:11px;color:#57606a;min-width:38px">17.6%</div>
+        </div>
+        <div class="dist-row">
+          <div class="dist-label"><span class="gred gBp" style="min-width:30px;text-align:center">B+</span></div>
+          <div class="dist-track"><div class="dist-fill" style="width:8.8%;background:#3b82d4"></div></div>
+          <div class="dist-count">6</div>
+          <div style="font-size:11px;color:#57606a;min-width:38px">8.8%</div>
+        </div>
+        <div class="dist-row">
+          <div class="dist-label"><span class="gred gB" style="min-width:30px;text-align:center">B</span></div>
+          <div class="dist-track"><div class="dist-fill" style="width:17.6%;background:#60a5fa"></div></div>
+          <div class="dist-count">12</div>
+          <div style="font-size:11px;color:#57606a;min-width:38px">17.6%</div>
+        </div>
+        <div class="dist-row">
+          <div class="dist-label"><span class="gred gBm" style="min-width:30px;text-align:center">B-</span></div>
+          <div class="dist-track"><div class="dist-fill" style="width:1.5%;background:#93c5fd"></div></div>
+          <div class="dist-count">1</div>
+          <div style="font-size:11px;color:#57606a;min-width:38px">1.5%</div>
+        </div>
+        <div style="margin-top:14px;padding:10px 12px;background:#f7f9ff;border-radius:6px;border:1px solid #dbeafe">
+          <span style="font-size:12.5px;color:#2d2f8e;font-weight:700">72%</span>
+          <span style="font-size:12px;color:#374151"> daripada semua gred adalah A, A- atau A+</span>
+          <div style="font-size:11px;color:#57606a;margin-top:2px">Jumlah entri gred: 68 entri</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="section-title"><span class="dot"></span>Purata Markah Keseluruhan Mengikut Subjek</div>
+  <div class="card">
+    <div class="savg-row">
+      <div class="savg-label"><strong>SFC1164</strong> — System Analysis &amp; Design</div>
+      <div class="savg-track"><div class="savg-fill" style="width:88.5%"></div></div>
+      <div class="savg-val">88.5</div>
+    </div>
+    <div class="savg-row">
+      <div class="savg-label"><strong>SFC1162</strong> — Computer Architecture</div>
+      <div class="savg-track"><div class="savg-fill" style="width:88.4%"></div></div>
+      <div class="savg-val">88.4</div>
+    </div>
+    <div class="savg-row">
+      <div class="savg-label"><strong>SFC1161</strong> — Programming Fundamentals</div>
+      <div class="savg-track"><div class="savg-fill" style="width:83.8%"></div></div>
+      <div class="savg-val">83.8</div>
+    </div>
+    <div class="savg-row">
+      <div class="savg-label"><strong>SFC1160</strong> — Database Fundamentals</div>
+      <div class="savg-track"><div class="savg-fill" style="width:79.4%"></div></div>
+      <div class="savg-val">79.4</div>
+    </div>
+    <div class="savg-row">
+      <div class="savg-label"><strong>MPU1304/1305</strong> — Pend. Islam / Moral</div>
+      <div class="savg-track"><div class="savg-fill" style="width:77.5%"></div></div>
+      <div class="savg-val">77.5</div>
+    </div>
+    <div class="savg-row">
+      <div class="savg-label"><strong>LASUE1003</strong> — Communicative English</div>
+      <div class="savg-track"><div class="savg-fill" style="width:72.5%"></div></div>
+      <div class="savg-val">72.5</div>
+    </div>
+    <div class="savg-row" style="margin-bottom:0">
+      <div class="savg-label"><strong>SFC1159</strong> — Basic Mathematics</div>
+      <div class="savg-track"><div class="savg-fill" style="width:70.4%"></div></div>
+      <div class="savg-val">70.4</div>
+    </div>
+  </div>
+
+  
+  <div class="section-title"><span class="dot"></span>Rumusan &amp; Pemerhatian</div>
+  <div class="card" style="padding:0;overflow:hidden;border-radius:10px">
+    <div class="rumusan-grid">
+      <div class="rumusan-block pos">
+        <div class="rumusan-title">✅ Pencapaian Cemerlang</div>
+        <ul>
+          <li>100% pelajar lulus semua subjek (Status KB)</li>
+          <li>72% daripada semua gred adalah A dan ke atas</li>
+          <li>Purata GPA kelas: <strong>3.65</strong> — sangat memuaskan</li>
+          <li>GPA tertinggi: <strong>3.83</strong> — Mohamad Razzin bin Azlan</li>
+          <li><strong>5 pelajar</strong> layak Anugerah Kecemerlangan Akademik</li>
+          <li>Subjek terbaik: Sys. Analysis &amp; Design (avg <strong>88.5</strong>)</li>
+        </ul>
+      </div>
+      <div class="rumusan-block imp">
+        <div class="rumusan-title">📌 Bidang Penambahbaikan</div>
+        <ul>
+          <li>Basic Mathematics — markah terendah (avg <strong>70.4</strong>)</li>
+          <li>Communicative English — boleh ditingkatkan (avg <strong>72.5</strong>)</li>
+          <li>Cadang: kelas bimbingan tambahan untuk Matematik</li>
+          <li>Cadang: aktiviti komunikasi bahasa Inggeris lebih aktif</li>
+          <li>GPA pelajar terendah masih 3.50 — semua di tahap memuaskan</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="footer">
+    <div>
+      <strong>KOLEJ KOMUNITI BENTONG</strong> · Kementerian Pendidikan Tinggi<br />
+      Jabatan Pendidikan Politeknik dan Kolej Komuniti<br />
+      Rekod Markah Keseluruhan · Kelas SKKSTM1A · Semester 1 · Sesi 2026/2027<br />
+      Pensyarah Kelas: <strong>Pn. Normah Binti Abdul Malik</strong>
+    </div>
+    <div style="margin-top:8px;color:#9ca3af;font-size:11px">Made with IBM Bob</div>
+  </div>
+
+</div>
+</body>
+</html>
